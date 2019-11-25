@@ -4,7 +4,7 @@ import _ from 'lodash';
 import filter from 'lodash/filter';
 import { Neo4jTypeName } from './augment/types/types';
 import { SpatialType } from './augment/types/spatial';
-import { buildName, buildNamedType } from './ast';
+import { buildName, buildNamedType } from './augment/ast';
 
 function parseArg(arg, variableValues) {
   switch (arg.value.kind) {
