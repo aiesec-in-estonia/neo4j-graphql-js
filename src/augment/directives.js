@@ -18,6 +18,7 @@ import {
 export const DirectiveDefinition = {
   CYPHER: 'cypher',
   RELATION: 'relation',
+  RELATION_MUTATION: 'relationMutation',
   MUTATION_META: 'MutationMeta',
   NEO4J_IGNORE: 'neo4j_ignore',
   IS_AUTHENTICATED: 'isAuthenticated',
@@ -313,6 +314,32 @@ const directiveDefinitionBuilderMap = {
         }
       ],
       locations: [DirectiveLocation.FIELD_DEFINITION, DirectiveLocation.OBJECT]
+    };
+  },
+  [DirectiveDefinition.RELATION_MUTATION]: ({ config }) => {
+    return {
+      name: DirectiveDefinition.RELATION_MUTATION,
+      args: [
+        {
+          name: 'name',
+          type: {
+            name: GraphQLString
+          }
+        },
+        {
+          name: 'from',
+          type: {
+            name: GraphQLString
+          }
+        },
+        {
+          name: 'to',
+          type: {
+            name: GraphQLString
+          }
+        }
+      ],
+      locations: [DirectiveLocation.FIELD_DEFINITION]
     };
   },
   [DirectiveDefinition.ADDITIONAL_LABELS]: ({ config }) => {
