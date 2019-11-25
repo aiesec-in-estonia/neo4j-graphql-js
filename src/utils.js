@@ -4,6 +4,7 @@ import _ from 'lodash';
 import filter from 'lodash/filter';
 import { Neo4jTypeName } from './augment/types/types';
 import { SpatialType } from './augment/types/spatial';
+import { buildName, buildNamedType } from './ast';
 
 function parseArg(arg, variableValues) {
   switch (arg.value.kind) {
@@ -368,13 +369,27 @@ export const possiblySetFirstId = ({ args, statements, params }) => {
 
 export const getQueryArguments = resolveInfo => {
   if (resolveInfo.fieldName === '_entities') return [];
-  return resolveInfo.schema.getQueryType().getFields()[resolveInfo.fieldName]
-    .astNode.arguments;
+  let args = resolveInfo.schema.getQueryType().getFields()[resolveInfo.fieldName].astNode.arguments;
+  if (resolveInfo.injectIdParam) {
+    console.log(args)
+    args = [buildInputValue({
+      name: buildName({ name: 'id' }),
+      type: buildNamedType('ID!')
+    }), ...args]
+  }
+  return args
 };
 
 export const getMutationArguments = resolveInfo => {
-  return resolveInfo.schema.getMutationType().getFields()[resolveInfo.fieldName]
-    .astNode.arguments;
+  let args = resolveInfo.schema.getMutationType().getFields()[resolveInfo.fieldName].astNode.arguments;
+  if (resolveInfo.injectIdParam) {
+    console.log(args)
+    args = [buildInputValue({
+      name: buildName({ name: 'id' }),
+      type: buildNamedType('ID!')
+    }), ...args]
+  }
+  return args
 };
 
 export const getAdditionalLabels = (schemaType, cypherParams) => {
