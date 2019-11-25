@@ -707,13 +707,13 @@ export const translateQuery = ({
   orderBy,
   otherParams
 }) => {
-  console.log(JSON.stringify(otherParams))
+  console.log("translateQ " + JSON.stringify(otherParams))
   const [nullParams, nonNullParams] = filterNullParams({
     offset,
     first,
     otherParams
   });
-  console.log(JSON.stringify(nullParams))
+  console.log("translateQ nullParams " + JSON.stringify(nullParams))
   const filterParams = getFilterParams(nonNullParams);
   const queryArgs = getQueryArguments(resolveInfo);
   const neo4jTypeArgs = getNeo4jTypeArguments(queryArgs);
