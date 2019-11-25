@@ -371,9 +371,6 @@ export const getQueryArguments = resolveInfo => {
   if (resolveInfo.fieldName === '_entities') return [];
   let args = resolveInfo.schema.getQueryType().getFields()[resolveInfo.fieldName].astNode.arguments;
   if (resolveInfo.injectIdParam) {
-    if (!args.id) {
-      throw new Error("No id parameter value set for injection")
-    }
     args = [buildInputValue({
       name: buildName({ name: 'id' }),
       type: buildNamedType('ID!')
@@ -385,9 +382,6 @@ export const getQueryArguments = resolveInfo => {
 export const getMutationArguments = resolveInfo => {
   let args = resolveInfo.schema.getMutationType().getFields()[resolveInfo.fieldName].astNode.arguments;
   if (resolveInfo.injectIdParam) {
-    if (!args.id) {
-      throw new Error("No id parameter value set for injection")
-    }
     args = [buildInputValue({
       name: buildName({ name: 'id' }),
       type: buildNamedType('ID!')
