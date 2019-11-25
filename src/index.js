@@ -37,8 +37,6 @@ export async function neo4jgraphql(
   let query;
   let cypherParams;
 
-  console.log("neo4jgraphql " + JSON.stringify(params))
-
   const cypherFunction = isMutation(resolveInfo) ? cypherMutation : cypherQuery;
   [query, cypherParams] = cypherFunction(
     params,
@@ -83,7 +81,6 @@ export function cypherQuery(
   context,
   resolveInfo
 ) {
-  console.log("cypherQ otherParams " + JSON.stringify(otherParams))
   const { typeName, variableName } = typeIdentifiers(resolveInfo.returnType);
   const schemaType = resolveInfo.schema.getType(typeName);
   const selections = getPayloadSelections(resolveInfo);

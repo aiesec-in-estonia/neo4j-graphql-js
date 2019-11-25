@@ -707,13 +707,11 @@ export const translateQuery = ({
   orderBy,
   otherParams
 }) => {
-  console.log("translateQ " + JSON.stringify(otherParams))
   const [nullParams, nonNullParams] = filterNullParams({
     offset,
     first,
     otherParams
   });
-  console.log("translateQ nullParams " + JSON.stringify(nullParams))
   const filterParams = getFilterParams(nonNullParams);
   const queryArgs = getQueryArguments(resolveInfo);
   const neo4jTypeArgs = getNeo4jTypeArguments(queryArgs);
@@ -966,7 +964,7 @@ export const translateMutation = ({
       ? schemaType.getInterfaces().map(i => i.name)
       : [];
   const mutationTypeCypherDirective = getMutationCypherDirective(resolveInfo);
-  const mutationTypeRelationMutationDirective = getMutationRelationDirective(resolveInfo);
+  const mutationRelationDirective = getMutationRelationDirective(resolveInfo);
   const params = initializeMutationParams({
     resolveInfo,
     mutationTypeCypherDirective,
@@ -989,11 +987,11 @@ export const translateMutation = ({
       orderByValue,
       outerSkipLimit
     });
-  } else if (mutationTypeRelationMutationDirective) {
+  } else if (mutationRelationDirective) {
     return customRelationMutation({
       ...mutationInfo,
       context,
-      mutationTypeRelationMutationDirective,
+      mutationRelationDirective,
       variableName,
       orderByValue,
       outerSkipLimit
@@ -1128,7 +1126,7 @@ const constructRelationMutation = (
 const customRelationMutation = ({
   params,
   context,
-  mutationTypeRelationDirective,
+  mutationRelationDirective,
   selections,
   variableName,
   schemaType,
@@ -1148,13 +1146,14 @@ const customRelationMutation = ({
     ),
     cypherParams
   );
-  const relationType = mutationTypeRelationDirective.arguments.find(x => {
+  console.log(mutationRelationDirective)
+  const relationType = mutationRelationDirective.arguments.find(x => {
     return x.name.value === 'name';
   }).value.value;
-  const fromType = mutationTypeRelationDirective.arguments.find(x => {
+  const fromType = mutationRelationDirective.arguments.find(x => {
     return x.name.value === 'from';
   }).value.value;
-  const toType = mutationTypeRelationDirective.arguments.find(x => {
+  const toType = mutationRelationDirective.arguments.find(x => {
     return x.name.value === 'to';
   }).value.value;
 

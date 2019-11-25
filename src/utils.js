@@ -247,7 +247,6 @@ export function filtersFromSelections(selections, variableValues) {
 }
 
 export function getFilterParams(filters, index) {
-  console.log(JSON.stringify(filters))
   return Object.entries(filters).reduce((result, [key, value]) => {
     result[key] = index
       ? {
@@ -276,7 +275,6 @@ export function innerFilterParams(
     ? []
     : ['first', 'offset', 'orderBy', 'filter'];
 
-  console.log(JSON.stringify(Object.entries(filters)))
   return Object.keys(filters).length > 0
     ? Object.entries(filters)
         // exclude temporal arguments
@@ -290,7 +288,6 @@ export function innerFilterParams(
 }
 
 export function paramsToString(params, cypherParams) {
-  console.log(JSON.stringify(params))
   if (params.length > 0) {
     const strings = _.map(params, param => {
       return `${param.key}:${param.paramKey ? `$${param.paramKey}.` : '$'}${
